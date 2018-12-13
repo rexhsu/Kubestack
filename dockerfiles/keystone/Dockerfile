@@ -1,4 +1,4 @@
-ARG FROM=ubuntu:xenial
+ARG FROM=rexhsu/ubuntu:xenial
 FROM ${FROM}
 MAINTAINER Rex Hsu <rexhsu@qnap.com>
 
@@ -28,7 +28,7 @@ COPY _wrap.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/_wrap.sh"]
 CMD ["/bin/bash"]
 
-USER install
+#USER install
 RUN set -x
 RUN cd $PREFIX
 RUN git clone --depth 1 --single-branch --branch master https://github.com/openstack/keystone.git git-fetch
