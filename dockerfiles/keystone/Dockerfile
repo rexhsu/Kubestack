@@ -29,18 +29,17 @@ ENTRYPOINT ["/usr/local/bin/_wrap.sh"]
 CMD ["/bin/bash"]
 
 USER install
-RUN \
- set -x && \
- cd $PREFIX && \
- git clone --depth 1 --single-branch --branch master https://github.com/openstack/keystone.git git-fetch && \
- cd git-fetch && \
- virtualenv --system-site-packages $PREFIX/venv && \
- $PREFIX/venv/bin/pip install --upgrade pip && \
- $PREFIX/venv/bin/pip install --compile . PyMySQL && \
- mkdir -p $ETC_IN && \
- cp -r etc $ETC_IN/keystone && \
- . $PREFIX/venv/bin/activate && keystone-all --help >/dev/null
-
+RUN set -x
+RUN cd $PREFIX
+RUN git clone --depth 1 --single-branch --branch master https://github.com/openstack/keystone.git git-fetch
+RUN cd git-fetch
+RUN virtualenv --system-site-packages $PREFIX/venv
+RUN $PREFIX/venv/bin/pip install --upgrade pip 
+RUN $PREFIX/venv/bin/pip install --compile . PyMySQL
+RUN mkdir -p $ETC_IN
+RUN cp -r etc $ETC_IN/keystone
+RUN . $PREFIX/venv/bin/activate
+RUN keystone-all --help >/dev/null
 COPY keystone.conf.in catalog.templates.in /home/install/etc/keystone/
 
 USER user
