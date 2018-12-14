@@ -2,7 +2,7 @@ FROM rexhsu/ubuntu:xenial
 MAINTAINER rexhsu "rexhsu@qnap.com"
 
 ENV KEYSTONE_BASEDIR=/opt/keystone \
-    VERSION=13.0.0
+    VERSION=13.0.0rc2
 
 RUN set -x \
     && apt-get update -y \
