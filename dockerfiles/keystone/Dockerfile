@@ -1,23 +1,22 @@
 FROM rexhsu/ubuntu:xenial 
 MAINTAINER rexhsu "rexhsu@qnap.com"
 
-ENV VERSION=10.0.0.0rc1
+ENV KEYSTONE_BASEDIR=/opt/keystone
 
 RUN set -x \
-    && apt-get -y update \
-    && apt-get install -y libffi-dev python-dev libssl-dev mysql-client python-mysqldb \
-    && apt-get -y clean
+    && apt update -y \
+    && apt install -y libffi-dev python-pip python-dev libssl-dev mysql-client python-mysqldb git \
+    && apt clean -y
 
-RUN curl -fSL https://github.com/openstack/keystone/archive/${VERSION}.tar.gz -o keystone-${VERSION}.tar.gz \
-    && tar xvf keystone-${VERSION}.tar.gz \
-    && cd keystone-${VERSION} \
+RUN git clone --branch $VERSION --depth 1 https://github.com/openstack/keystone.git ${KEYSTONE_BASEDIR} \ 
+    && cd ${KEYSTONE_BASEDIR} \
     && pip install -r requirements.txt \
-    && PBR_VERSION=${VERSION}  pip install . \
+    && pip install . \
     && pip install uwsgi MySQL-python \
     && cp -r etc /etc/keystone \
     && pip install python-openstackclient \
-    && cd - \
-    && rm -rf keystone-${VERSION}*
+    && apt remove -y python-dev \
+    && apt autoremove -y 
 
 COPY keystone.conf /etc/keystone/keystone.conf
 COPY keystone.sql /root/keystone.sql
