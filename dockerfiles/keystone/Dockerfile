@@ -1,5 +1,5 @@
-FROM python:2.7
-MAINTAINER krystism "krystism@gmail.com"
+FROM rexhsu/ubuntu:xenial 
+MAINTAINER rexhsu "rexhsu@qnap.com"
 
 ENV VERSION=10.0.0.0rc1
 
