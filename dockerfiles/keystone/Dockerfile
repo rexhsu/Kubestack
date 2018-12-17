@@ -2,11 +2,11 @@ FROM rexhsu/ubuntu:xenial
 MAINTAINER rexhsu "rexhsu@qnap.com"
 
 ENV KEYSTONE_BASEDIR=/opt/keystone \
-    VERSION=13.0.0rc2
+    VERSION=stable/rocky
 
 RUN set -x \
     && apt-get update -y \
-    && apt-get install -y libffi-dev python-pip python-dev libssl-dev libmysqlclient-dev mysql-client python-mysqldb git \
+    && apt-get install -y libpython2.7 libffi-dev python-pip python-dev libssl-dev libmysqlclient-dev mysql-client python-mysqldb git \
     && apt-get clean -y
 
 RUN git clone --branch $VERSION --depth 1 https://github.com/openstack/keystone.git ${KEYSTONE_BASEDIR} \ 
